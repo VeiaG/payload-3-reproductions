@@ -76,7 +76,7 @@ Binaries:
   Yarn: N/A
   pnpm: 10.19.0
 Relevant Packages:
-  payload: 3.74.0
+  payload: 3.74.0 //Also tested on 3.65.0 and 3.69.0 with same results
   next: 15.4.7
   @payloadcms/db-sqlite: 3.74.0
   @payloadcms/drizzle: 3.74.0
