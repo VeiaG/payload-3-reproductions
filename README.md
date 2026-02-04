@@ -98,4 +98,23 @@ Operating System:
   Version: Darwin Kernel Version 25.2.0: Tue Nov 18 21:09:40 PST 2025; root:xnu-12377.61.12~1/RELEASE_ARM64_T6000
   Available memory (MB): 16384
   Available CPU cores: 10
+
+//Same thing on windows
+Operating System:
+  Platform: win32
+  Arch: x64
+  Version: Windows 11 Pro
+  Available memory (MB): 32673
+  Available CPU cores: 16
+
 ```
+## Reproduction steps
+1. Clone this repository
+2. Install dependencies with `pnpm install`
+3. Run `pnpm dev`
+4. Go to `http://localhost:3000/admin/collections/lexical-test/create`
+5. See errors in console and 500 error in browser
+
+## Notes
+- Removing the BlocksFeature from the editor features makes the error go away, or removing block that have block fields inside of them.
+- Using dev without turbo also produces the same error.
