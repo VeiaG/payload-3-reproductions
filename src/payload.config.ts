@@ -9,7 +9,12 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-
+import { Test } from './collections/Test'
+import allBlocks from './blocks'
+import { LexicalTest } from './collections/LexicalTest'
+import {
+  BlocksFeature,
+} from '@payloadcms/richtext-lexical'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -21,12 +26,24 @@ export default buildConfig({
     },
     autoLogin: { email: 'dev@payloadcms.com', password: 'password' },
   },
-  collections: [Users, Media],
-  editor: lexicalEditor(),
+  collections: [Users, Media,Test,LexicalTest],
+  editor: lexicalEditor({
+    features({ defaultFeatures, rootFeatures, }) {
+      return[
+        ...defaultFeatures,
+        BlocksFeature({ blocks: ['column'] }), // - Not working
+        // BlocksFeature({ blocks:['columnWithoutArray',],}) // Still not working
+        // BlocksFeature({ blocks:['columnWithoutBlocks']}) // Working, because we are not using blocks inside this block
+        
+
+      ]
+    },
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  blocks: [...allBlocks],
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || '',

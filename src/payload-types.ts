@@ -65,10 +65,17 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    content: ContentBlock;
+    column: ColumnBlock;
+    columnWithoutArray: ColumnWithoutArrayBlock;
+    columnWithoutBlocks: ColumnWithoutBlocksBlock;
+  };
   collections: {
     users: User;
     media: Media;
+    test: Test;
+    'lexical-test': LexicalTest;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +85,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    test: TestSelect<false> | TestSelect<true>;
+    'lexical-test': LexicalTestSelect<false> | LexicalTestSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -115,6 +124,56 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContentBlock".
+ */
+export interface ContentBlock {
+  content?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColumnBlock".
+ */
+export interface ColumnBlock {
+  rows?:
+    | {
+        contentBlocks?: ContentBlock[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'column';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColumnWithoutArrayBlock".
+ */
+export interface ColumnWithoutArrayBlock {
+  contentBlocks?: ContentBlock[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'columnWithoutArray';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ColumnWithoutBlocksBlock".
+ */
+export interface ColumnWithoutBlocksBlock {
+  rows?:
+    | {
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'columnWithoutBlocks';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -161,6 +220,40 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test".
+ */
+export interface Test {
+  id: string;
+  content?: (ContentBlock | ColumnBlock)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lexical-test".
+ */
+export interface LexicalTest {
+  id: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -190,6 +283,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'test';
+        value: string | Test;
+      } | null)
+    | ({
+        relationTo: 'lexical-test';
+        value: string | LexicalTest;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -272,6 +373,24 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test_select".
+ */
+export interface TestSelect<T extends boolean = true> {
+  content?: T | {};
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lexical-test_select".
+ */
+export interface LexicalTestSelect<T extends boolean = true> {
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
