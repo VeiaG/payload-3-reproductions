@@ -6,7 +6,9 @@ export const Test:CollectionConfig = {
         {
             name:'content',
             type:'blocks',
-            blocks:['content','column']
+            // blocks:['content','column']
+            blocks:[],
+            blockReferences:['content','column']
         }
     ]
 }

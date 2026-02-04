@@ -16,7 +16,9 @@ export const ColumnBlock:Block = {
         {
             name: 'contentBlocks',
             type:'blocks',
-            blocks:['content']
+            // blocks:['content']
+            blocks:[],
+            blockReferences:['content']
         },
     ])
     ],
@@ -29,7 +31,9 @@ export const ColumnWithoutArrayBlock:Block = {
         {
             name: 'contentBlocks',
             type:'blocks',
-            blocks:['content']
+            // blocks:['content']
+            blocks:[],
+            blockReferences:['content']
         },
     ],
 }

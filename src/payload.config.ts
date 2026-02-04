@@ -34,8 +34,6 @@ export default buildConfig({
         BlocksFeature({ blocks: ['column'] }), // - Not working
         // BlocksFeature({ blocks:['columnWithoutArray',],}) // Still not working
         // BlocksFeature({ blocks:['columnWithoutBlocks']}) // Working, because we are not using blocks inside this block
-        
-
       ]
     },
   }),
