@@ -1,0 +1,47 @@
+import { CollectionConfig } from "payload";
+
+export const Articles:CollectionConfig = {
+    slug:"articles",
+    admin:{
+        useAsTitle:"title"
+    },
+    fields:[
+        {
+            name:"title",
+            type:"text",
+            required:true
+        },
+        {
+            name:"content",
+            type:"richText",
+             required:true
+        },
+        {
+            name:'slug',
+            type:'text',
+            admin:{
+                position:'sidebar',
+            }
+        },
+        {
+            type:'row',
+            fields:[
+                {
+                    name:'author',
+                    type:'relationship',
+                    relationTo:'users',
+                    admin:{
+                        width:'50%',
+                    }
+                },
+                {
+                    name:'halfLexical',
+                    type:'richText',
+                    admin:{
+                        width:'50%',
+                    }
+                }
+            ]
+        }
+    ]
+}
