@@ -1,38 +1,46 @@
-import { CollectionConfig } from "payload";
+import { CollectionConfig, TextFieldSingleValidation } from 'payload'
 
-export const Articles:CollectionConfig = {
-    slug:"articles",
-    admin:{
-        useAsTitle:"title"
+const testValidate: TextFieldSingleValidation = (value) => {
+  if ((value?.length || 0) < 5) {
+    return 'Title must be at least 5 characters long. Looooooooooooooooong loooooooooooooooooooooooooooooooooooooong'
+  }
+  return true
+}
+
+export const Articles: CollectionConfig = {
+  slug: 'articles',
+  admin: {
+    useAsTitle: 'title',
+  },
+  fields: [
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      validate: testValidate,
     },
-    fields:[
-        {
-            name:"title",
-            type:"text",
-            required:true
+    {
+      name: 'content',
+      type: 'richText',
+      required: true,
+    },
+    {
+      name: 'tooltip',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: {
+            path: '@/components/index.tsx',
+          },
         },
-        {
-            name:"content",
-            type:"richText",
-             required:true
-        },
-        {
-            name:'tooltip',
-            type:'ui',
-            admin:{
-                components:{
-                    Field:{
-                        path:'@/components/index.tsx',
-                    }
-                }
-            }
-        },
-        {
-            name:'slug',
-            type:'text',
-            admin:{
-                position:'sidebar',
-            }
-        },
-    ]
+      },
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
+    },
+  ],
 }
