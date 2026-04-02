@@ -7,6 +7,10 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   auth: true,
+  forceSelect: {
+		firstName: true,
+		lastName: true,
+	},
   fields: [
     {
 			type: 'row',
