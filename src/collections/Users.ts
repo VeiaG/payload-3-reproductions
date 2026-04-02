@@ -1,13 +1,45 @@
 import type { CollectionConfig } from 'payload'
+import { formatConcatenatedFields } from './formatConcatenatedFields'
 
 export const Users: CollectionConfig = {
   slug: 'users',
   admin: {
-    useAsTitle: 'email',
+    useAsTitle: 'name',
   },
   auth: true,
   fields: [
-    // Email added by default
-    // Add more fields as needed
+    {
+			type: 'row',
+			fields: [
+				{
+					name: 'firstName',
+					label: 'First Name',
+					type: 'text',
+					admin: {
+						width: '50%',
+					},
+				},
+				{
+					name: 'lastName',
+					label: 'Last Name',
+					type: 'text',
+					admin: {
+						width: '50%',
+					},
+				},
+			],
+		},
+    {
+			name: 'name',
+			label: 'Name',
+			type: 'text',
+			virtual: true,
+			admin: {
+				hidden: true,
+			},
+			hooks: {
+				afterRead: [formatConcatenatedFields(['firstName', 'lastName'])],
+			},
+		},
   ],
 }
