@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     redirects: Redirect;
+    'test-collection': TestCollection;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
+    'test-collection': TestCollectionSelect<false> | TestCollectionSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -182,6 +184,18 @@ export interface Redirect {
         relationTo: 'media';
         value: string | Media;
       } | null);
+  testCollection?: (string | null) | TestCollection;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test-collection".
+ */
+export interface TestCollection {
+  id: string;
+  user?: (string | null) | User;
+  fullName?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -220,6 +234,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'redirects';
         value: string | Redirect;
+      } | null)
+    | ({
+        relationTo: 'test-collection';
+        value: string | TestCollection;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -313,6 +331,17 @@ export interface MediaSelect<T extends boolean = true> {
 export interface RedirectsSelect<T extends boolean = true> {
   from?: T;
   to?: T;
+  testCollection?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "test-collection_select".
+ */
+export interface TestCollectionSelect<T extends boolean = true> {
+  user?: T;
+  fullName?: T;
   updatedAt?: T;
   createdAt?: T;
 }

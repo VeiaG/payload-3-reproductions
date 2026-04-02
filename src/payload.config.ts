@@ -10,6 +10,7 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Redirects } from './collections/Redirects'
+import { TestCollection } from './collections/TestCollection'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +23,7 @@ export default buildConfig({
     },
     autoLogin: { email: 'dev@payloadcms.com', password: 'password' },
   },
-  collections: [Users, Media, Redirects],
+  collections: [Users, Media, Redirects, TestCollection],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -11,6 +11,11 @@ export const Redirects: CollectionConfig = {
         name:'to',
         type:'relationship',
         relationTo:['users','media']
+    },
+    {
+        name:'testCollection',
+        type:'relationship',
+        relationTo:'test-collection',
     }
   ],
 }
