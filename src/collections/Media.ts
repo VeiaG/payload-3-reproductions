@@ -13,4 +13,15 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: true,
+  admin: {
+    components: {
+      beforeListTable: ['@/components/GridViewButton#default'],
+      views: {
+        grid: {
+          Component: '@/components/GridView#default',
+          path: '/grid',
+        },
+      },
+    },
+  },
 }
