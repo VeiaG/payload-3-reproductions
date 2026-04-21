@@ -9,6 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { BulkEditCondition } from './collections/BulkEditCondition'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +22,7 @@ export default buildConfig({
     },
     autoLogin: { email: 'dev@payloadcms.com', password: 'password' },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, BulkEditCondition],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
