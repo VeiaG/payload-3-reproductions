@@ -65,10 +65,18 @@ export interface Config {
   auth: {
     users: UserAuthOperations;
   };
-  blocks: {};
+  blocks: {
+    hero: Hero;
+    content: Content;
+  };
   collections: {
     users: User;
     media: Media;
+    'pages-refs': PagesRef;
+    'pages-direct': PagesDirect;
+    'pages-col-lp': PagesColLp;
+    'pages-col-p': PagesColP;
+    'pages-config-lp': PagesConfigLp;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +86,11 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'pages-refs': PagesRefsSelect<false> | PagesRefsSelect<true>;
+    'pages-direct': PagesDirectSelect<false> | PagesDirectSelect<true>;
+    'pages-col-lp': PagesColLpSelect<false> | PagesColLpSelect<true>;
+    'pages-col-p': PagesColPSelect<false> | PagesColPSelect<true>;
+    'pages-config-lp': PagesConfigLpSelect<false> | PagesConfigLpSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,12 +100,17 @@ export interface Config {
     defaultIDType: string;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
-  locale: null;
-  user: User & {
-    collection: 'users';
+  globals: {
+    'better-editor-settings': BetterEditorSetting;
   };
+  globalsSelect: {
+    'better-editor-settings': BetterEditorSettingsSelect<false> | BetterEditorSettingsSelect<true>;
+  };
+  locale: null;
+  widgets: {
+    collections: CollectionsWidget;
+  };
+  user: User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -118,6 +136,27 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero".
+ */
+export interface Hero {
+  heading: string;
+  subheading?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "content".
+ */
+export interface Content {
+  body: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -139,6 +178,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -158,6 +198,130 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-refs".
+ */
+export interface PagesRef {
+  id: string;
+  title: string;
+  slug: string;
+  layout?: (Hero | Content)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-direct".
+ */
+export interface PagesDirect {
+  id: string;
+  title: string;
+  slug: string;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            body: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'content';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-col-lp".
+ */
+export interface PagesColLp {
+  id: string;
+  title: string;
+  slug: string;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            body: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'content';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-col-p".
+ */
+export interface PagesColP {
+  id: string;
+  title: string;
+  slug: string;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            body: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'content';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-config-lp".
+ */
+export interface PagesConfigLp {
+  id: string;
+  title: string;
+  slug: string;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            body: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'content';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -190,6 +354,26 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'pages-refs';
+        value: string | PagesRef;
+      } | null)
+    | ({
+        relationTo: 'pages-direct';
+        value: string | PagesDirect;
+      } | null)
+    | ({
+        relationTo: 'pages-col-lp';
+        value: string | PagesColLp;
+      } | null)
+    | ({
+        relationTo: 'pages-col-p';
+        value: string | PagesColP;
+      } | null)
+    | ({
+        relationTo: 'pages-config-lp';
+        value: string | PagesConfigLp;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -275,6 +459,133 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-refs_select".
+ */
+export interface PagesRefsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?: T | {};
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-direct_select".
+ */
+export interface PagesDirectSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              id?: T;
+              blockName?: T;
+            };
+        content?:
+          | T
+          | {
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-col-lp_select".
+ */
+export interface PagesColLpSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              id?: T;
+              blockName?: T;
+            };
+        content?:
+          | T
+          | {
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-col-p_select".
+ */
+export interface PagesColPSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              id?: T;
+              blockName?: T;
+            };
+        content?:
+          | T
+          | {
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages-config-lp_select".
+ */
+export interface PagesConfigLpSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              id?: T;
+              blockName?: T;
+            };
+        content?:
+          | T
+          | {
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -312,6 +623,66 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Editor-wide preferences for the Better Editor overlay.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "better-editor-settings".
+ */
+export interface BetterEditorSetting {
+  id: string;
+  sidebarPosition?: ('right' | 'left') | null;
+  /**
+   * Override admin.width on sidebar fields so they always span the full row.
+   */
+  forceFullWidthFields?: boolean | null;
+  tabletWidth?: number | null;
+  mobileWidth?: number | null;
+  /**
+   * Hex color (e.g. `#3b82f6`).
+   */
+  hoverColorTopLevel?: string | null;
+  /**
+   * Hex color for blocks nested inside another block.
+   */
+  hoverColorNested?: string | null;
+  /**
+   * Outline thickness in pixels (1–5).
+   */
+  hoverOutlineWidth?: number | null;
+  showHoverToolbar?: boolean | null;
+  hoverToolbarPosition?: ('top-right' | 'top-left' | 'bottom-right' | 'bottom-left') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "better-editor-settings_select".
+ */
+export interface BetterEditorSettingsSelect<T extends boolean = true> {
+  sidebarPosition?: T;
+  forceFullWidthFields?: T;
+  tabletWidth?: T;
+  mobileWidth?: T;
+  hoverColorTopLevel?: T;
+  hoverColorNested?: T;
+  hoverOutlineWidth?: T;
+  showHoverToolbar?: T;
+  hoverToolbarPosition?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
