@@ -15,17 +15,18 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
-    "@payloadcms/db-sqlite": "3.65.0",
-    "@payloadcms/live-preview-react": "3.65.0",
-    "@payloadcms/next": "3.65.0",
-    "@payloadcms/plugin-nested-docs": "3.65.0",
-    "@payloadcms/payload-cloud": "3.65.0",
-    "@payloadcms/richtext-lexical": "3.65.0",
-    "@payloadcms/ui": "3.65.0",
+    "@payloadcms/db-sqlite": "3.90.2",
+    "@payloadcms/live-preview-react": "3.90.2",
+    "@payloadcms/next": "3.90.2",
+    "@payloadcms/payload-cloud": "3.90.2",
+    "@payloadcms/plugin-nested-docs": "3.90.2",
+    "@payloadcms/richtext-lexical": "3.90.2",
+    "@payloadcms/translations": "3.90.2",
+    "@payloadcms/ui": "3.90.2",
     "cross-env": "^7.0.3",
     "graphql": "^16.8.1",
-    "next": "15.4.7",
-    "payload": "3.65.0",
+    "next": "15.4.11",
+    "payload": "3.90.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sharp": "0.34.2"
@@ -35,7 +36,7 @@
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "eslint": "^9.16.0",
-    "eslint-config-next": "15.4.7",
+    "eslint-config-next": "15.4.11",
     "typescript": "5.7.3"
   },
   "engines": {
