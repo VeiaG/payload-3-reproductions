@@ -12,9 +12,11 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "dev:mongo": "node scripts/dev-mongo.mjs"
   },
   "dependencies": {
+    "@payloadcms/db-mongodb": "3.90.2",
     "@payloadcms/db-sqlite": "3.90.2",
     "@payloadcms/live-preview-react": "3.90.2",
     "@payloadcms/next": "3.90.2",
@@ -37,6 +39,7 @@
     "@types/react-dom": "^19.1.9",
     "eslint": "^9.16.0",
     "eslint-config-next": "15.4.11",
+    "mongodb-memory-server": "^11.3.0",
     "typescript": "5.7.3"
   },
   "engines": {

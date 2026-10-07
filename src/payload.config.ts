@@ -1,4 +1,5 @@
 // storage-adapter-import-placeholder
+import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -12,6 +13,8 @@ import { fr } from '@payloadcms/translations/languages/fr'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
+import { SettingsCollection } from './collections/Settings'
+import { SettingsGlobal } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +27,8 @@ export default buildConfig({
     },
     autoLogin: { email: 'dev@payloadcms.com', password: 'password' },
   },
-  collections: [Users, Media, Pages],
+  collections: [Users, Media, Pages, SettingsCollection],
+  globals: [SettingsGlobal],
   i18n: {
     fallbackLanguage: 'en',
     supportedLanguages: { en, fr },
@@ -42,12 +46,27 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
-  db: sqliteAdapter({
-    client: {
-      url: process.env.DATABASE_URI || '',
-    },
-    idType: 'uuid',
-  }),
+  // `pnpm dev` uses SQLite, `pnpm dev:mongo` an in-memory MongoDB
+  db: process.env.DATABASE_URI?.startsWith('mongodb')
+    ? mongooseAdapter({ url: process.env.DATABASE_URI })
+    : sqliteAdapter({
+        client: {
+          url: process.env.DATABASE_URI || '',
+        },
+        idType: 'uuid',
+      }),
+  onInit: async (payload) => {
+    const { totalDocs } = await payload.count({ collection: 'users' })
+    if (totalDocs > 0) return
+    await payload.create({
+      collection: 'users',
+      data: { email: 'dev@payloadcms.com', password: 'password' },
+    })
+    await payload.create({
+      collection: 'settings',
+      data: { collectionOnly: 'collection value', title: 'Collection doc' },
+    })
+  },
   sharp,
   plugins: [
     payloadCloudPlugin(),
